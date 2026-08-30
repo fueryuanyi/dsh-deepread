@@ -398,7 +398,8 @@ section[id] {
 .use-cases,
 .examples,
 .install,
-.faq {
+.faq,
+.wechat {
   padding-block: clamp(88px, 12vw, 150px);
 }
 
@@ -854,6 +855,71 @@ section[id] {
   padding-bottom: 24px;
 }
 
+.wechat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: clamp(42px, 8vw, 110px);
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.wechat-copy {
+  max-width: 680px;
+}
+
+.wechat-lead {
+  max-width: 620px;
+  font-size: 1.08rem;
+}
+
+.wechat-points {
+  display: grid;
+  gap: 10px;
+  margin: 30px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wechat-points li {
+  position: relative;
+  padding: 13px 16px 13px 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.wechat-points li::before {
+  position: absolute;
+  top: 50%;
+  left: 17px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.wechat-poster {
+  width: min(100%, 380px);
+  margin: 0 0 0 auto;
+}
+
+.wechat-poster img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.wechat-poster figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
 .final-cta {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -964,8 +1030,13 @@ section[id] {
 
   .manifesto,
   .product-proof,
-  .limits {
+  .limits,
+  .wechat {
     grid-template-columns: 1fr;
+  }
+
+  .wechat-poster {
+    margin-inline: auto;
   }
 
   .manifesto blockquote {
@@ -1084,7 +1155,8 @@ section[id] {
   .use-cases,
   .examples,
   .install,
-  .faq {
+  .faq,
+  .wechat {
     padding-block: 76px;
   }
 

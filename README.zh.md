@@ -1,11 +1,13 @@
-# 📖 DeepRead 精读助手（dsh-deepread）
+# 📖 DeepRead 证据精读：让 AI 的结论回到原文核对
 
-[中文官网](https://xiehuan123.github.io/dsh-deepread/) | [English](README.md) | 中文
+[中文官网](https://xiehuan123.github.io/dsh-deepread/) · [真实输出](examples/README.md) · [English](README.md) · 中文
 
-> 精读一本书或一篇文章：提取核心观点、论证结构与关键论据，输出「观点—证据—数据—关系」结构化报告。
-> 同一 npm 包为 DeepSeek Harness Web/headless 与 dsh-TUI 提供 TypeScript Host 工具；浏览器结果卡片与精读面板是仅由 Web 宿主加载的可选 client 入口。
+> 把公众号文章、PDF、书籍和文档集整理成可追溯的观点、证据、原文位置与置信度，而不只是一段流畅摘要。
 
 [![npm version](https://img.shields.io/npm/v/dsh-deepread)](https://www.npmjs.com/package/dsh-deepread)
+[![GitHub release](https://img.shields.io/github/v/release/xiehuan123/dsh-deepread?display_name=tag)](https://github.com/xiehuan123/dsh-deepread/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/xiehuan123/dsh-deepread?style=flat&label=stars)](https://github.com/xiehuan123/dsh-deepread/stargazers)
+[![Agent Skill](https://img.shields.io/badge/Agent%20Skill-Codex%20%7C%20Claude%20Code-6366f1)](./skills/dsh-deepread/SKILL.md)
 [![Awesome DSH Plugin](https://beancookie.github.io/awesome-dsh-plugin/badge.svg)](https://beancookie.github.io/awesome-dsh-plugin)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -15,6 +17,26 @@ DeepRead 同时提供两种兼容形态：
 
 - **便携 Agent Skill**：适用于 Codex、Claude Code 及其他兼容 Agent Skills 的工具，零运行时依赖。
 - **Host 插件包**：适用于 DeepSeek Harness Web/headless 与 dsh-TUI，包含 `deepread` 工具、PDF 抽取、可选持久化/jobs/Web route、批量对比、成本预估和 HTML/XMind 导出；浏览器 client 仅供 Web 宿主按需加载。
+
+## 它和普通摘要有什么不同
+
+| 普通 AI 摘要 | DeepRead |
+| --- | --- |
+| 压缩文章主题 | 提取完整观点与论证链 |
+| 容易混合原文事实和模型推断 | 区分作者原意、原文事实、合理推断和无法确认 |
+| 结论很难回查 | 重要观点配证据，并定位到页码或原文段落 |
+| 给完答案就结束 | 继续生成关系图、限制条件和主动回忆问题 |
+
+原文没有支撑某个观点时，DeepRead 会明确写出 **「原文未提供证据」**，不会替作者补答案。
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/xiehuan123/dsh-deepread/main/.github/assets/deepread-panel-dark.jpg">
+    <img src="https://raw.githubusercontent.com/xiehuan123/dsh-deepread/main/.github/assets/deepread-panel-light.jpg" width="470" alt="DeepRead 真实精读面板，包含输入、阅读模式、导出、关注重点和预算预检">
+  </picture>
+  <br>
+  <sub>DeepSeek Harness Web 中的真实精读面板；便携 Agent Skill 不依赖这套运行时界面，但使用同一套证据优先方法。</sub>
+</p>
 
 ## 快速开始
 
@@ -26,7 +48,17 @@ npx skills@latest add xiehuan123/dsh-deepread
 dsh plugin --profile web add dsh-deepread
 ```
 
-真实输出样例：[`deep` 深度精读](examples/claude-code-token-optimization.md) · [`map` 知识地图](examples/ad-fact-check-knowledge-map.md) · [架构文章精读](examples/vivo-tauri-architecture.md)
+## 先看真实输出
+
+以下是由公开文章生成的完整报告，不是手写展示稿：
+
+| 报告 | DeepRead 揭示了什么 |
+| --- | --- |
+| [`deep` · Claude Code Token 优化](examples/claude-code-token-optimization.md) | 还原「可见性→输入压缩→输出压缩→检索路径」工程链路，并区分作者建议与项目方自报 benchmark。 |
+| [`map` · 营销文章事实核查](examples/ad-fact-check-knowledge-map.md) | 找出“90% 转型”“128 万年薪”“日薪 2000”等数字均无来源、样本和基准，逐项标记为无法确认。 |
+| [`deep` · vivo Tauri 架构实践](examples/vivo-tauri-architecture.md) | 将选型结论连接到体积、性能和实现证据，同时保留未验证假设与部署限制。 |
+
+[查看全部可复现案例 →](examples/README.md)
 
 ## 功能
 
@@ -203,6 +235,19 @@ npm run build               # 构建 lib/types 与 lib/client.js
 npm test                    # 完整仓库契约测试
 npm pack --dry-run --json   # 核对发布文件清单与公共入口
 ```
+
+## 社区与贡献
+
+- 使用问题、阅读工作流和案例分享请到 [GitHub Discussions](https://github.com/xiehuan123/dsh-deepread/discussions)。
+- 可复现问题请使用 [Bug 表单](https://github.com/xiehuan123/dsh-deepread/issues/new?template=bug_report.yml)。
+- 聚焦的改进建议请使用 [功能建议表单](https://github.com/xiehuan123/dsh-deepread/issues/new?template=feature_request.yml)。
+- 提交 Pull Request 前请阅读 [CONTRIBUTING.md](https://github.com/xiehuan123/dsh-deepread/blob/main/CONTRIBUTING.md)。
+
+关注公众号 **Appoint 实验室**，获取 AI 工具、效率软件、开源项目和产品实践：
+
+<img src="https://raw.githubusercontent.com/xiehuan123/dsh-deepread/main/.github/assets/appoint-lab-wechat.png" width="360" alt="Appoint 实验室微信公众号介绍与关注二维码">
+
+如果可追溯的 AI 精读对你有帮助，可以 [Star 这个仓库](https://github.com/xiehuan123/dsh-deepread)，让下一位需要核对原文的读者更容易找到它，也方便关注后续版本。
 
 ## License
 
