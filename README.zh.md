@@ -198,7 +198,7 @@ npx skills@latest add xiehuan123/dsh-deepread      # 或 skills.sh
 
 `@deepseek-ai/*` 官方包（cordis / dsh-tools / schemastery / dsh-storage-domain）与 `zod`、`react`
 由宿主 profile 提供，在 `peerDependencies` 中声明（`*` 表示跟随宿主版本）；`dsh.client.inject`
-声明客户端依赖边（dsh-client-runtime 提供 slots/sessions，dsh-client-ui-conversation 提供 conversation）。
+声明客户端依赖边（dsh-client-store 提供快照存储引擎，dsh-client-ui-conversation 提供 conversation）。
 
 ## 全文缓存
 

@@ -29,7 +29,7 @@ const reactStub = {
 }
 const requireStub = (spec) => {
   if (spec === 'react') return reactStub
-  if (spec === '@deepseek-ai/dsh-client-runtime/client') return createRuntimeStub()
+  if (spec === '@deepseek-ai/dsh-client-store') return createRuntimeStub()
   throw new Error('client bundle required an unexpected specifier: ' + spec)
 }
 const mod = handoff.factory(requireStub)

@@ -213,7 +213,7 @@ Quickly summarize this article: <paste text>
 
 The `@deepseek-ai/*` host packages (cordis / dsh-tools / schemastery / dsh-storage-domain) plus `zod` and `react`
 are provided by the host profile and declared in `peerDependencies` (`*` means "follow the host version");
-`dsh.client.inject` declares the client-side dependency edges (dsh-client-runtime provides slots/sessions,
+`dsh.client.inject` declares the client-side dependency edges (dsh-client-store provides the snapshot-store engine,
 dsh-client-ui-conversation provides conversation).
 
 ## Full-text cache
