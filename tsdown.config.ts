@@ -10,8 +10,8 @@ const config: UserConfig = {
   dts: false,
   sourcemap: true,
   clean: false,
-  external: ['react', '@deepseek-ai/dsh-client-runtime/client'],
-  noExternal: (id: string) => id === 'react' || id === '@deepseek-ai/dsh-client-runtime/client' ? undefined : true,
+  external: ['react', '@deepseek-ai/dsh-client-store'],
+  noExternal: (id: string) => id === 'react' || id === '@deepseek-ai/dsh-client-store' ? undefined : true,
   outputOptions: {
     entryFileNames: 'client.js',
     banner: 'window.__ModuleLoader__.load({ id: "dsh-deepread", factory: (require) => {',

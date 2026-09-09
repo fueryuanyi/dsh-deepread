@@ -181,7 +181,7 @@ const createContext = () => {
 
 const system = new ClientModuleSystem({
   modules: [{ id: 'dsh-deepread', url: pathToFileURL(join(root, 'lib', 'client.js')).href, rev: 'drag-dom-test' }],
-  staticModules: { react: React, '@deepseek-ai/dsh-client-runtime/client': createRuntimeStub() },
+  staticModules: { react: React, '@deepseek-ai/dsh-client-store': createRuntimeStub() },
   loadBundle: async (url) => { await import(url + '?loader=' + Date.now()) },
 })
 browserWindow.__ModuleLoader__ = globalThis.__ModuleLoader__

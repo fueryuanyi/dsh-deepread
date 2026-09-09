@@ -75,7 +75,7 @@ globalThis.removeEventListener = (type, listener) => {
 const { ClientModuleSystem } = await import(pathToFileURL(upstreamSystem).href)
 const system = new ClientModuleSystem({
   modules: [{ id: 'dsh-deepread', url: pathToFileURL(join(root, 'lib', 'client.js')).href, rev: 'test' }],
-  staticModules: { react: React, '@deepseek-ai/dsh-client-runtime/client': createRuntimeStub() },
+  staticModules: { react: React, '@deepseek-ai/dsh-client-store': createRuntimeStub() },
   loadBundle: async (url) => { await import(url + '?loader=' + Date.now()) },
 })
 

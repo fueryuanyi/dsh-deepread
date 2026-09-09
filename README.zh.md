@@ -99,34 +99,34 @@ dsh plugin --profile web add -w dsh-deepread
 
 ## 安装
 
-DeepRead `1.0.0` 要求 Node.js **22.19 或 24 以上**（`^22.19 || >=24`）。同一个 npm 包暴露 TypeScript Host 入口 `lib/types/index.js`、dsh-TUI Community Consensus v0.15 清单 `dsh-plugin.json`，以及可选的 DeepSeek Harness Web client `lib/client.js`。
+DeepRead `1.0.1` 要求 Node.js **22.19 或 24 以上**（`^22.19 || >=24`）。同一个 npm 包暴露 TypeScript Host 入口 `lib/types/index.js`、dsh-TUI Community Consensus v0.15 清单 `dsh-plugin.json`，以及可选的 DeepSeek Harness Web client `lib/client.js`。
 
 ### 宿主兼容矩阵
 
 | 宿主 | Node `deepread` 工具 | Web client | 打包 skill | 降级行为 |
 | --- | --- | --- | --- | --- |
-| DeepSeek Harness Web `0.1.0-rc.7` | 支持 | 加载浏览器 Web UI | 可用 | 无 |
+| DeepSeek Harness Web `0.1.2-rc.1` | 支持 | 加载浏览器 Web UI | 可用 | 无 |
 | DeepSeek Harness headless `0.1.0-rc.7` | 支持 | 不加载 Web client | 可用 | 不注册预算 HTTP route |
 | dsh-TUI `0.8.1` 最低版本 / Community Consensus `v0.15` | 支持 | 不加载 Web client | 可用 | 无 Web route、无浏览器 UI |
 | 缺少 `storageDomain` 的自定义组合 | 支持 | 取决于 Web 服务 | 可用 | URL 缓存和 Host 校准退化为进程内状态 |
 
-替换 `0.5.4` 前请先阅读[升级与回滚指南](docs/upgrade-and-rollback.md)，其中说明了浏览器 origin 与 `DSH_HOME` 的数据保留条件；[正式版说明](docs/releases/1.0.0.md)记录兼容范围与入口变化。
+替换 `0.5.4` 前请先阅读[升级与回滚指南](docs/upgrade-and-rollback.md)，其中说明了浏览器 origin 与 `DSH_HOME` 的数据保留条件；[正式版说明](docs/releases/1.0.1.md)记录兼容范围与入口变化。
 
 ### DeepSeek Harness（工具 + Web UI，完整功能）
 
 需要本机已安装 **pnpm**（`dsh plugin` 命令底层调用 pnpm 安装插件）。
 
-`1.0.0` 发布后，不指定版本的命令会安装 npm 正式版；需要精确部署版本时固定为 `1.0.0`。
+`1.0.1` 发布后，不指定版本的命令会安装 npm 正式版；需要精确部署版本时固定为 `1.0.1`。
 
 ```sh
-# npm 正式版（1.0.0 发布后）
+# npm 正式版（1.0.1 发布后）
 dsh plugin --profile web add dsh-deepread
 
-# 固定 npm 版本（1.0.0 发布后）
-dsh plugin --profile web add dsh-deepread@1.0.0
+# 固定 npm 版本（1.0.1 发布后）
+dsh plugin --profile web add dsh-deepread@1.0.1
 
-# 固定 GitHub tag（v1.0.0 创建后）
-dsh plugin --profile web add "github:xiehuan123/dsh-deepread#v1.0.0"
+# 固定 GitHub tag（v1.0.1 创建后）
+dsh plugin --profile web add "github:xiehuan123/dsh-deepread#v1.0.1"
 ```
 
 从 Web profile 卸载 DeepRead：
@@ -155,7 +155,7 @@ dsh plugin --profile web remove -w dsh-deepread
 
 ### dsh-TUI（Host 工具 + skill）
 
-dsh-TUI `0.8.1` 及以上版本可通过宿主的插件安装入口安装 `dsh-deepread@1.0.0`。安装器读取包内 `dsh-plugin.json` v0.15 清单并加载 `lib/types/index.js`，不会加载 `lib/client.js`。
+dsh-TUI `0.8.1` 及以上版本可通过宿主的插件安装入口安装 `dsh-deepread@1.0.1`。安装器读取包内 `dsh-plugin.json` v0.15 清单并加载 `lib/types/index.js`，不会加载 `lib/client.js`。
 
 ### Codex / Claude Code（skill 形态，零依赖）
 
@@ -224,7 +224,7 @@ npx skills@latest add xiehuan123/dsh-deepread      # 或 skills.sh
 
 `@deepseek-ai/*` 官方包（cordis / dsh-tools / schemastery / dsh-storage-domain）与 `zod`、`react`
 由宿主 profile 提供，在 `peerDependencies` 中声明（`*` 表示跟随宿主版本）；`dsh.client.inject`
-声明客户端依赖边（dsh-client-runtime 提供 slots/sessions，dsh-client-ui-conversation 提供 conversation）。
+声明客户端依赖边（dsh-api-session-controller 提供 sessions，dsh-client-ui-conversation 提供 conversation）。
 
 ## 全文缓存
 

@@ -1,7 +1,11 @@
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
+import type {} from '@deepseek-ai/dsh-api-session-controller/client'
+import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
 import type {} from '@deepseek-ai/dsh-client-ui-tool/client'
+// Complete the settings slot declaration referenced by the upstream chat types.
+import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import { errorMessage, type SubmitDeepread } from './models.js'
 import { createPanelState } from './store.js'
 import { ComposerButton, DeepReadCard, installStyles, clientCss, Panel } from './view.js'

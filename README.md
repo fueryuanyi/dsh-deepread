@@ -112,34 +112,34 @@ One-line picker: in a hurry, `quick`; read one article thoroughly, `deep`; cite 
 
 ## Installation
 
-DeepRead `1.0.0` requires Node.js **22.19 or 24 and higher** (`^22.19 || >=24`). The same npm package exposes the TypeScript Host entry at `lib/types/index.js`, the dsh-TUI Community Consensus v0.15 manifest at `dsh-plugin.json`, and an optional DeepSeek Harness Web client at `lib/client.js`.
+DeepRead `1.0.1` requires Node.js **22.19 or 24 and higher** (`^22.19 || >=24`). The same npm package exposes the TypeScript Host entry at `lib/types/index.js`, the dsh-TUI Community Consensus v0.15 manifest at `dsh-plugin.json`, and an optional DeepSeek Harness Web client at `lib/client.js`.
 
 ### Host compatibility
 
 | Host | Node `deepread` tool | Web client | Packaged skill | Degraded behavior |
 | --- | --- | --- | --- | --- |
-| DeepSeek Harness Web `0.1.0-rc.7` | Supported | Web UI loaded | Available | None |
+| DeepSeek Harness Web `0.1.2-rc.1` | Supported | Web UI loaded | Available | None |
 | DeepSeek Harness headless `0.1.0-rc.7` | Supported | Web client not loaded | Available | No budget HTTP route |
 | dsh-TUI `0.8.1` minimum / Community Consensus `v0.15` | Supported | Web client not loaded | Available | No Web route or browser UI |
 | Custom composition without `storageDomain` | Supported | Depends on Web services | Available | URL cache and Host calibration use in-process state |
 
-Before replacing `0.5.4`, read the [Upgrade and rollback guide](docs/upgrade-and-rollback.md), including the browser-origin and `DSH_HOME` retention conditions. The [Release notes](docs/releases/1.0.0.md) describe the compatibility and entry-point changes.
+Before replacing `0.5.4`, read the [Upgrade and rollback guide](docs/upgrade-and-rollback.md), including the browser-origin and `DSH_HOME` retention conditions. The [Release notes](docs/releases/1.0.1.md) describe the compatibility and entry-point changes.
 
 ### DeepSeek Harness (tool + Web UI, full functionality)
 
 Requires **pnpm** on the machine (`dsh plugin` runs pnpm underneath to install plugins).
 
-After `1.0.0` is published, the unpinned command installs the stable npm release. Pin `1.0.0` when an exact deployment version is required.
+After `1.0.1` is published, the unpinned command installs the stable npm release. Pin `1.0.1` when an exact deployment version is required.
 
 ```sh
-# Stable npm release (after 1.0.0 is published)
+# Stable npm release (after 1.0.1 is published)
 dsh plugin --profile web add dsh-deepread
 
-# Exact npm version (after 1.0.0 is published)
-dsh plugin --profile web add dsh-deepread@1.0.0
+# Exact npm version (after 1.0.1 is published)
+dsh plugin --profile web add dsh-deepread@1.0.1
 
-# Exact GitHub tag (after v1.0.0 is created)
-dsh plugin --profile web add "github:xiehuan123/dsh-deepread#v1.0.0"
+# Exact GitHub tag (after v1.0.1 is created)
+dsh plugin --profile web add "github:xiehuan123/dsh-deepread#v1.0.1"
 ```
 
 To remove DeepRead from the Web profile:
@@ -168,7 +168,7 @@ Restart `dsh web` for it to take effect. A 📖 shortcut button appears next to 
 
 ### dsh-TUI (Host tool + skill)
 
-dsh-TUI `0.8.1` or newer can install `dsh-deepread@1.0.0` through the host's plugin installer. The installer reads the packaged `dsh-plugin.json` v0.15 manifest and loads `lib/types/index.js`; it does not load `lib/client.js`.
+dsh-TUI `0.8.1` or newer can install `dsh-deepread@1.0.1` through the host's plugin installer. The installer reads the packaged `dsh-plugin.json` v0.15 manifest and loads `lib/types/index.js`; it does not load `lib/client.js`.
 
 ### Codex / Claude Code (skill form, zero dependencies)
 
@@ -239,7 +239,7 @@ Quickly summarize this article: <paste text>
 
 The `@deepseek-ai/*` host packages (cordis / dsh-tools / schemastery / dsh-storage-domain) plus `zod` and `react`
 are provided by the host profile and declared in `peerDependencies` (`*` means "follow the host version");
-`dsh.client.inject` declares the client-side dependency edges (dsh-client-runtime provides slots/sessions,
+`dsh.client.inject` declares the client-side dependency edges (dsh-api-session-controller provides sessions,
 dsh-client-ui-conversation provides conversation).
 
 ## Full-text cache

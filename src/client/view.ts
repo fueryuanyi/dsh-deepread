@@ -5,7 +5,7 @@
 import * as React from 'react'
 import type { ToolCallViewProps } from '@deepseek-ai/dsh-client-ui-tool/client'
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
 import type { BudgetState, DeepreadResult, Depth, EstimateModes, EstimateRow, ExportFormat, HistoryRecord, SubmitDeepread, UnknownRecord } from './models.js'
 import { errorMessage, isBudgetSuccess, isRecord } from './models.js'
 import { historyKindAllowed, readCalibration, readHistory, writeCalibration, writeHistory } from './storage.js'

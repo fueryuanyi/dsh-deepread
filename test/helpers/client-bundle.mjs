@@ -84,7 +84,7 @@ export async function loadClientBundle(root, fixture) {
   }
   const module = handoff.factory((specifier) => {
     if (specifier === 'react') return React
-    if (specifier === '@deepseek-ai/dsh-client-runtime/client') return createRuntimeStub()
+    if (specifier === '@deepseek-ai/dsh-client-store') return createRuntimeStub()
     throw new Error(`unexpected client dependency: ${specifier}`)
   })
 
