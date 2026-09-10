@@ -6,10 +6,10 @@
 
 - 上游仓库：`deepseek-ai/deepseek-harness`
 - 本地上游路径：`/Users/xiehuan/Desktop/project/deepseek-harness`
-- 核对版本：`0.1.0-rc.7`
-- 核对提交：`99f6f02fecdb7dff40c3fbc9470f5907c29f74ca`（2026-08-17）
+- 核对版本：`0.1.2-rc.1`
+- 核对提交：`a66e4702047846cdaa10c66c9d3df3951f5ea70d`（2026-09-03）
 - 本插件提交基线：`cbfffab353112180456a6c26ed83de092d54ac12`
-- 核对日期：2026-08-18
+- 核对日期：2026-09-10
 
 上游仍处于预发布阶段。修改宿主接口相关代码前，应先在本地上游重新核对文档和源码，而不是把本文当成永久不变的 API 规范。
 
@@ -31,7 +31,7 @@ dsh web
   -> ClientModuleRegistry 扫描已激活包的 dsh.client
   -> 解析 exports["./client"] 为 lib/client.js
   -> 注入 window.__DSH_BOOT__ 客户端图
-  -> 浏览器请求 /plugins/dsh-deepread/client.js?rev=<hash>
+  -> 浏览器按 window.__DSH_BOOT__.entries/batches 请求带 rev 的 /plugins/??... 组合 URL
   -> bundle 调用 window.__ModuleLoader__.load({ id, factory })
   -> Cordis 执行浏览器 apply(ctx)
   -> 向三个宿主 slot 注册结果卡、入口按钮和浮层面板
@@ -112,7 +112,7 @@ window.__ModuleLoader__.load({
 })
 ```
 
-宿主按 `dsh.client` 扫描包，解析 `exports["./client"]`，读取 bundle 内容计算 rev，并通过 `/plugins/<id>/client.js?rev=<hash>` 提供文件。bundle 必须在执行后注册与图中完全相同的 id；缺文件、id 不匹配、重复注册或 factory 内 `require()` 未进入宿主模块表都会响亮失败。
+宿主按 `dsh.client` 扫描包，解析 `exports["./client"]`，读取 bundle 内容计算 rev，并通过启动图提供带 `rev` 的 `/plugins/??<id>/client.js&rev=<hash>` URL（可合并多个模块）提供文件。应读取启动图 URL，不应硬编码旧的单文件路由。bundle 必须在执行后注册与图中完全相同的 id；缺文件、id 不匹配、重复注册或 factory 内 `require()` 未进入宿主模块表都会响亮失败。
 
 `lib/client.js` 与 `lib/client.js.map` 属于产物面，不能手改。浏览器修改流程固定为：
 
@@ -123,6 +123,14 @@ window.__ModuleLoader__.load({
 5. 对装载或 UI 生命周期变化，在真实 Harness Web profile 中验证。
 
 上游的 `clientBundle` 预设没有作为已发布包暴露；上游文档明确要求 out-of-tree 插件自行复刻该构建。这里由 tsdown 负责模块转换和 factory 产物生成，不再把 JavaScript 源文本手工拼进 loader wrapper。升级 Harness 时仍须重新核对 `packages/client/tsdown.client.ts`、`ClientPluginHandoff` 和 factory `require` 规则。
+
+### 0.1.2-rc.1 共享模块迁移
+
+`dsh-deepread@1.0.1` 的 Web client 面向 Harness `0.1.2-rc.1`。旧的 `@deepseek-ai/dsh-client-runtime/client` 已不在宿主模块表中；`createSnapshotStore` 和 `ObservableSnapshot` 改从 `@deepseek-ai/dsh-client-store` 获取，Context 类型来自 `@deepseek-ai/cordis`。浏览器构建保留 `react` 和 `@deepseek-ai/dsh-client-store` 为 external，后者是 `packages/client/web/src/platform.ts` 声明的共享静态模块，无需添加 `dsh.client.external`。
+
+`dsh.client.inject` 指向 `@deepseek-ai/dsh-api-session-controller` 与 `@deepseek-ai/dsh-client-ui-conversation`。服务类型扩展通过对应的 type-only imports 加载，不产生 factory require。旧版 Harness Web 应保留 `dsh-deepread@1.0.0`；Host-only 入口与数据格式不变。
+
+`test/client-platform.mjs` 拒绝旧 runtime 请求，并在本地上游可用时对照当前 platform 源码及 loader 验证。真实 Web 验证必须使用版本匹配的宿主产物：源码 checkout 的 tag 不证明磁盘上的 `lib/` 或 `dist/` 已重建。
 
 ## 三个 UI slot
 
@@ -199,7 +207,7 @@ dsh web
 至少核对：
 
 1. dump 中存在 `id: deepread` / `name: dsh-deepread`；
-2. `/plugins/dsh-deepread/client.js` 返回 JavaScript，不是 SPA HTML；
+2. `window.__DSH_BOOT__.entries` 中 `dsh-deepread` 的 URL 返回 JavaScript，不是 SPA HTML；
 3. 控制台没有 bundle id、factory `require` 或 slot declaration 错误；
 4. 📖 按钮、浮层和 `deepread` 工具卡都出现；
 5. `/api/deepread/budget` 可用；
@@ -223,7 +231,7 @@ dsh --profile web --dump-config
 3. **配置合成**：`--dump-config` 是否出现 deepread 行，是否被后层覆盖；
 4. **Node 激活**：所需服务是否存在，`apply` 是否执行，工具和预算路由是否注册；
 5. **client 发现**：`dsh.client` 与 `exports["./client"]` 是否可解析，产物是否存在；
-6. **bundle 到达**：浏览器是否成功请求 `/plugins/dsh-deepread/client.js?rev=...`；
+6. **bundle 到达**：浏览器是否成功请求 启动图提供的带 rev 的 bundle URL；
 7. **factory 注册**：`__ModuleLoader__.load` 的 id 是否为 `dsh-deepread`；
 8. **模块实例化**：factory 的 `require('react')` 是否由宿主 module table 提供；
 9. **Cordis 激活**：browser `exports.inject` 的服务是否就绪；

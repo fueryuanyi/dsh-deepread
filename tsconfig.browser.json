@@ -1,26 +1,17 @@
 {
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
-    "lib": [
-      "ES2024",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2024", "ESNext.Disposable", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
     "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "target": "ES2024",
-    "types": [
-      "react"
-    ],
+    "types": ["react"],
     "useUnknownInCatchVariables": true,
     "verbatimModuleSyntax": true
   },
-  "include": [
-    "src/client/**/*.ts",
-    "src/client/**/*.tsx"
-  ]
+  "include": ["src/client/**/*.ts", "src/client/**/*.tsx"]
 }
